@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Amazon Database</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Preload WASM -->
+    <link rel="preload" href="lib/RDKit_minimal.wasm" as="fetch" type="application/wasm" crossorigin>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="glass-header">
+        <div class="container">
+            <div class="brand">
+                <div class="logo-icon">
+                    <!-- Anchor Icon SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="5" r="3" />
+                        <line x1="12" x2="12" y1="22" y2="8" />
+                        <path d="M5 12H2a10 10 0 0 0 20 0h-3" />
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <h1>Blue Amazon Database</h1>
+                    <p>Marine Natural Products</p>
+                </div>
+            </div>
+            <a href="#" id="aboutBtn" class="nav-link">About Project</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+
+        <!-- Controls -->
+        <div class="controls-bar">
+            <div class="search-wrapper">
+                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.3-4.3" />
+                </svg>
+                <input type="text" id="searchInput" placeholder="Search compounds, smiles, species...">
+            </div>
+
+            <div class="filter-wrapper">
+                <div class="select-wrapper">
+                    <select id="pathwayFilter">
+                        <option value="All">All Pathways</option>
+                        <!-- Options populated via JS -->
+                    </select>
+                </div>
+                <span id="resultCount" class="result-count">Loading...</span>
+            </div>
+        </div>
+
+        <!-- Grid -->
+        <div id="compoundGrid" class="compound-grid">
+            <!-- Loading State -->
+            <div class="loading-state">
+                <div class="spinner"></div>
+                <p>Loading Blue Amazon Data...</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Blue Amazon Database. Tracking Brazil's marine biodiversity.</p>
+        </div>
+    </footer>
+
+    <!-- About Modal -->
+    <div id="aboutModal" class="modal-overlay hidden">
+        <div class="modal-content glass-panel" style="max-width: 600px;">
+            <button id="closeAboutModal" class="close-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                </svg>
+            </button>
+
+            <div class="modal-body">
+                <h2 class="modal-title"
+                    style="font-size: 1.5rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                    About the Project</h2>
+
+                <div class="desc-box">
+                    <p style="margin-bottom: 1rem;">The Blue Amazon Database is a curated collection of marine natural
+                        products derived from Brazilian marine biodiversity.</p>
+                    <p>The database aims to support research in medicinal chemistry, chemical biology, and drug
+                        discovery by providing chemical structures and basic physicochemical properties in an accessible
+                        web-based format.</p>
+                </div>
+
+                <h3 class="section-title">Authorship</h3>
+                <div class="desc-box">
+                    <p><strong>Developed by:</strong> Larissa Oliveira Dourado</p>
+                    <p class="text-muted" style="margin-top: 0.5rem; font-size: 0.9em;">Undergraduate student in
+                        Pharmacy<br>Instituto Politécnico de Bragança (project initiation) and Universidade Estadual de
+                        Feira de Santana (project completion)</p>
+                    <p style="margin-top: 0.5rem;"><strong>Academic supervision:</strong> Carlos Seiti Hurtado Shiraishi
+                    </p>
+                    <p><strong>Year:</strong> 2025</p>
+                </div>
+
+                <h3 class="section-title">Methodology</h3>
+                <div class="desc-box">
+                    <ul style="padding-left: 1.25rem; list-style-type: disc;">
+                        <li>The data are organized in a structured CSV file and visualized through a static web
+                            application built with HTML, CSS, and JavaScript.</li>
+                        <li>Chemical structures are rendered directly in the browser using RDKit.</li>
+                        <li>The development process was supported by the Gemini 3 Pro model.</li>
+                    </ul>
+                </div>
+
+                <h3 class="section-title">Contact / Repository</h3>
+                <div class="desc-box">
+                    <p><strong>GitHub repository:</strong> <a href="#"
+                            class="text-teal-400 hover:text-white transition-colors">[LINK DO REPOSITÓRIO]</a></p>
+                    <p><strong>Contact email:</strong> larissaodourado@gmail.com</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="detailModal" class="modal-overlay hidden">
+        <div class="modal-content glass-panel">
+            <button id="closeModal" class="close-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                </svg>
+            </button>
+
+            <div class="modal-body" id="modalBody">
+                <!-- Content injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <!-- Load RDKit JS global -->
+    <script src="lib/RDKit_minimal.js"></script>
+    <script src="lib/papaparse.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
