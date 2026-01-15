@@ -59,6 +59,25 @@
             </div>
         </div>
 
+        <!-- Top Pagination -->
+        <div class="pagination-container pagination-top js-pagination-container hidden">
+            <button class="pagination-btn js-page-prev" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                Previous
+            </button>
+            <span class="page-info js-page-info">Showing 0-0 of 0</span>
+            <button class="pagination-btn js-page-next">
+                Next
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+        </div>
+
         <!-- Grid -->
         <div id="compoundGrid" class="compound-grid">
             <!-- Loading State -->
@@ -66,6 +85,25 @@
                 <div class="spinner"></div>
                 <p>Loading Blue Amazon Data...</p>
             </div>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div id="paginationControls" class="pagination-container js-pagination-container hidden">
+            <button id="prevPageBtn" class="pagination-btn js-page-prev" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                Previous
+            </button>
+            <span id="pageInfo" class="page-info js-page-info">Showing 0-0 of 0</span>
+            <button id="nextPageBtn" class="pagination-btn js-page-next">
+                Next
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
         </div>
 
     </main>

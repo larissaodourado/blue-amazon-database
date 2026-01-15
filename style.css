@@ -486,6 +486,75 @@ select option {
     margin-top: 2rem;
 }
 
+/* Pagination */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--glass-border);
+}
+
+.pagination-top {
+    margin-top: 0;
+    margin-bottom: 2rem;
+    padding-top: 0;
+    padding-bottom: 2rem;
+    border-top: none;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.pagination-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 0.5rem;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background: var(--card-hover-bg);
+    border-color: var(--teal-500);
+    color: white;
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.page-info {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    min-width: 150px;
+    text-align: center;
+}
+
+@media (max-width: 640px) {
+    .pagination-container {
+        gap: 1rem;
+    }
+
+    .page-info {
+        font-size: 0.8rem;
+        min-width: auto;
+    }
+
+    .pagination-btn {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+}
+
 /* Loading Spinner */
 .loading-state {
     grid-column: 1 / -1;

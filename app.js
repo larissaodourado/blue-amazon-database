@@ -6,6 +6,10 @@ const state = {
     filters: {
         search: '',
         pathway: 'All'
+    },
+    pagination: {
+        currentPage: 1,
+        pageSize: 40
     }
 };
 
@@ -20,7 +24,12 @@ const elements = {
     closeModal: document.getElementById('closeModal'),
     aboutBtn: document.getElementById('aboutBtn'),
     aboutModal: document.getElementById('aboutModal'),
-    closeAboutModal: document.getElementById('closeAboutModal')
+    closeAboutModal: document.getElementById('closeAboutModal'),
+    closeAboutModal: document.getElementById('closeAboutModal'),
+    paginationContainers: document.querySelectorAll('.js-pagination-container'),
+    prevBtns: document.querySelectorAll('.js-page-prev'),
+    nextBtns: document.querySelectorAll('.js-page-next'),
+    pageInfos: document.querySelectorAll('.js-page-info')
 };
 
 // Initialize App
@@ -42,12 +51,37 @@ async function init() {
         // Listeners
         elements.searchInput.addEventListener('input', (e) => {
             state.filters.search = e.target.value.toLowerCase();
+            state.pagination.currentPage = 1; // Reset to page 1
             renderGrid();
         });
 
         elements.pathwayFilter.addEventListener('change', (e) => {
             state.filters.pathway = e.target.value;
+            state.pagination.currentPage = 1; // Reset to page 1
             renderGrid();
+        });
+
+        // Pagination Listeners
+        elements.prevBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (state.pagination.currentPage > 1) {
+                    state.pagination.currentPage--;
+                    renderGrid();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+        });
+
+        elements.nextBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const totalItems = getFilteredCompounds().length;
+                const totalPages = Math.ceil(totalItems / state.pagination.pageSize);
+                if (state.pagination.currentPage < totalPages) {
+                    state.pagination.currentPage++;
+                    renderGrid();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
         });
 
         elements.closeModal.addEventListener('click', closeModal);
@@ -154,18 +188,27 @@ function populatePathways() {
 // Render Grid
 function renderGrid() {
     const filtered = getFilteredCompounds();
-    elements.resultCount.textContent = `${filtered.length} Results`;
+    const totalItems = filtered.length;
+
+    // Pagination Logic
+    const pageSize = state.pagination.pageSize;
+    const startIdx = (state.pagination.currentPage - 1) * pageSize;
+    const endIdx = startIdx + pageSize;
+    const paginatedItems = filtered.slice(startIdx, endIdx);
+
+    elements.resultCount.textContent = `${totalItems} Results`;
     elements.grid.innerHTML = '';
 
-    if (filtered.length === 0) {
+    if (totalItems === 0) {
         elements.grid.innerHTML = `<div class="loading-state"><p>No compounds found.</p></div>`;
+        updatePagination(0);
         return;
     }
 
     // Fragment for performance
     const fragment = document.createDocumentFragment();
 
-    filtered.forEach(compound => {
+    paginatedItems.forEach(compound => {
         const card = document.createElement('div');
         card.className = 'compound-card';
         card.onclick = () => openModal(compound);
@@ -202,6 +245,39 @@ function renderGrid() {
     });
 
     elements.grid.appendChild(fragment);
+    updatePagination(totalItems);
+}
+
+// Update Pagination Controls
+function updatePagination(totalItems) {
+    if (!elements.paginationContainers.length) return;
+
+    elements.paginationContainers.forEach(container => {
+        if (totalItems <= state.pagination.pageSize && state.pagination.currentPage === 1) {
+            // If we have items but less than one page, show controls disabled (so user sees count)
+            // If 0 items, hide controls
+            if (totalItems === 0) {
+                container.classList.add('hidden');
+            } else {
+                container.classList.remove('hidden');
+            }
+        } else {
+            container.classList.remove('hidden');
+        }
+    });
+
+    if (totalItems === 0) return;
+
+    const totalPages = Math.ceil(totalItems / state.pagination.pageSize);
+    const startItem = (state.pagination.currentPage - 1) * state.pagination.pageSize + 1;
+    const endItem = Math.min(state.pagination.currentPage * state.pagination.pageSize, totalItems);
+    const infoText = `Showing ${startItem}–${endItem} of ${totalItems}`;
+
+    elements.pageInfos.forEach(el => el.textContent = infoText);
+
+    // Disable buttons
+    elements.prevBtns.forEach(btn => btn.disabled = state.pagination.currentPage === 1);
+    elements.nextBtns.forEach(btn => btn.disabled = state.pagination.currentPage >= totalPages);
 }
 
 // Draw Molecule using RDKit
