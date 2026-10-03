@@ -26,11 +26,17 @@
                     </svg>
                 </div>
                 <div class="brand-text">
-                    <h1>Blue Amazon Database</h1>
-                    <p>Marine Natural Products</p>
+                    <h1 data-i18n="header.title">Blue Amazon Database</h1>
+                    <p data-i18n="header.subtitle">Marine Natural Products</p>
                 </div>
             </div>
-            <a href="#" id="aboutBtn" class="nav-link">About Project</a>
+            <div class="header-actions">
+                <div class="lang-selector">
+                    <button type="button" class="lang-btn" data-lang="pt" aria-label="Português">PT</button>
+                    <button type="button" class="lang-btn" data-lang="en" aria-label="English">EN</button>
+                </div>
+                <a href="#" id="aboutBtn" class="nav-link" data-i18n="header.aboutLink">About Project</a>
+            </div>
         </div>
     </header>
 
@@ -45,13 +51,13 @@
                     <circle cx="11" cy="11" r="8" />
                     <path d="m21 21-4.3-4.3" />
                 </svg>
-                <input type="text" id="searchInput" placeholder="Search compounds, smiles, species...">
+                <input type="text" id="searchInput" placeholder="Search compounds, smiles, species..." data-i18n-placeholder="search.placeholder">
             </div>
 
             <div class="filter-wrapper">
                 <div class="select-wrapper">
                     <select id="pathwayFilter">
-                        <option value="All">All Pathways</option>
+                        <option value="All" data-i18n="filter.allPathways">All Pathways</option>
                         <!-- Options populated via JS -->
                     </select>
                 </div>
@@ -66,11 +72,11 @@
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="15 18 9 12 15 6"></polyline>
                 </svg>
-                Previous
+                <span data-i18n="pagination.prev">Previous</span>
             </button>
             <span class="page-info js-page-info">Showing 0-0 of 0</span>
             <button class="pagination-btn js-page-next">
-                Next
+                <span data-i18n="pagination.next">Next</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="9 18 15 12 9 6"></polyline>
@@ -83,7 +89,7 @@
             <!-- Loading State -->
             <div class="loading-state">
                 <div class="spinner"></div>
-                <p>Loading Blue Amazon Data...</p>
+                <p data-i18n="states.loading">Loading Blue Amazon Data...</p>
             </div>
         </div>
 
@@ -94,11 +100,11 @@
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="15 18 9 12 15 6"></polyline>
                 </svg>
-                Previous
+                <span data-i18n="pagination.prev">Previous</span>
             </button>
             <span id="pageInfo" class="page-info js-page-info">Showing 0-0 of 0</span>
             <button id="nextPageBtn" class="pagination-btn js-page-next">
-                Next
+                <span data-i18n="pagination.next">Next</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="9 18 15 12 9 6"></polyline>
@@ -111,7 +117,7 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2026 Blue Amazon Database. Tracking Brazil's marine biodiversity.</p>
+            <p data-i18n="footer.text">&copy; 2026 Blue Amazon Database. Tracking Brazil's marine biodiversity.</p>
         </div>
     </footer>
 
@@ -126,46 +132,8 @@
                 </svg>
             </button>
 
-            <div class="modal-body">
-                <h2 class="modal-title"
-                    style="font-size: 1.5rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
-                    About the Project</h2>
-
-                <div class="desc-box">
-                    <p style="margin-bottom: 1rem;">The Blue Amazon Database is a curated collection of marine natural
-                        products derived from Brazilian marine biodiversity.</p>
-                    <p>The database aims to support research in medicinal chemistry, chemical biology, and drug
-                        discovery by providing chemical structures and basic physicochemical properties in an accessible
-                        web-based format.</p>
-                </div>
-
-                <h3 class="section-title">Authorship</h3>
-                <div class="desc-box">
-                    <p><strong>Developed by:</strong> Larissa Oliveira Dourado</p>
-                    <p class="text-muted" style="margin-top: 0.5rem; font-size: 0.9em;">Undergraduate student in
-                        Pharmacy<br>Instituto Politécnico de Bragança (project initiation) and Universidade Estadual de
-                        Feira de Santana (project completion)</p>
-                    <p style="margin-top: 0.5rem;"><strong>Academic supervision:</strong> Carlos Seiti Hurtado Shiraishi
-                    </p>
-                    <p><strong>Year:</strong> 2025</p>
-                </div>
-
-                <h3 class="section-title">Methodology</h3>
-                <div class="desc-box">
-                    <ul style="padding-left: 1.25rem; list-style-type: disc;">
-                        <li>The data are organized in a structured CSV file and visualized through a static web
-                            application built with HTML, CSS, and JavaScript.</li>
-                        <li>Chemical structures are rendered directly in the browser using RDKit.</li>
-                        <li>The development process was supported by the Gemini 3 Pro model.</li>
-                    </ul>
-                </div>
-
-                <h3 class="section-title">Contact / Repository</h3>
-                <div class="desc-box">
-                    <p><strong>GitHub repository:</strong> <a href="#"
-                            class="text-teal-400 hover:text-white transition-colors">[LINK DO REPOSITÓRIO]</a></p>
-                    <p><strong>Contact email:</strong> larissaodourado@gmail.com</p>
-                </div>
+            <div class="modal-body" id="aboutModalBody">
+                <!-- Content rendered via JS for i18n support -->
             </div>
         </div>
     </div>
