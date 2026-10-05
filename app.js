@@ -130,21 +130,25 @@ function loadRDKit() {
 // Load CSV Data
 function loadData() {
     return new Promise((resolve, reject) => {
-        Papa.parse('blue_amazon_db.csv', {
+        Papa.parse('amazul_db.csv', {
             download: true,
             header: true,
             skipEmptyLines: true,
             complete: (results) => {
-                // Map CSV to clean objects
-                const data = results.data.map((row, idx) => ({
+                // Filter valid compound rows (excluding trailing empty lines if any)
+                const validRows = results.data.filter(row => row['Compound name'] && row['Compound name'].trim() !== '');
+                const data = validRows.map((row, idx) => ({
                     id: idx + 1,
-                    name: row['Compound name'] || 'Unknown',
-                    smiles: row['SMILES'] || '',
-                    molWeight: row['Total Molweight'] || '-',
+                    name: row['Compound name'] ? row['Compound name'].trim() : 'Unknown',
+                    smiles: row['SMILES'] ? row['SMILES'].trim() : '',
+                    molWeight: row['Molweight'] || row['Total Molweight'] || '-',
                     cLogP: row['cLogP'] || '-',
                     hAcceptors: row['H-Acceptors'] || '-',
                     hDonors: row['H-Donors'] || '-',
                     sp3Carbon: row['sp3-Carbon Fraction'] || '-',
+                    relativePsa: row['Relative PSA'] || '-',
+                    mutagenic: row['Mutagenic'] || '-',
+                    rotatableBonds: row['Rotatable Bonds'] || '-',
                     metabolicPathway: row['Metabolic pathway'] || 'Unknown',
                     bioactivity: row['Bioactivity'] || 'Not specified',
                     species: row['Species'] || 'Unknown',
@@ -304,9 +308,24 @@ function drawMolecule(smiles, canvasId) {
     }
 }
 
+// Helper to format DOI references as clickable links
+function formatDoiReference(refString) {
+    if (!refString || typeof refString !== 'string') return '-';
+    const trimmed = refString.trim();
+    // Match DOI pattern like 10.xxxx/yyyy with optional "DOI:" prefix
+    const match = trimmed.match(/(?:DOI:\s*)?(10\.\d{4,9}\/[-._;()/:A-Za-z0-9]+)/i);
+    if (match) {
+        const doiCode = match[1].trim();
+        const fullUrl = `https://doi.org/${doiCode}`;
+        return `<a href="${fullUrl}" target="_blank" rel="noopener noreferrer" class="doi-link">DOI: ${doiCode}</a>`;
+    }
+    return trimmed;
+}
+
 // Modal
 function openModal(compound) {
     const canvasId = `modal-mol-${compound.id}`;
+    const doiFormatted = formatDoiReference(compound.reference);
 
     elements.modalBody.innerHTML = `
         <div class="modal-grid">
@@ -323,9 +342,10 @@ function openModal(compound) {
                     <span class="tag">${compound.species}</span>
                 </div>
 
+                <div class="section-title">Physicochemical Properties</div>
                 <div class="props-grid">
                     <div class="meta-item">
-                        <span class="meta-label">Mol. Weight</span>
+                        <span class="meta-label">Molecular Weight</span>
                         <span class="meta-value">${compound.molWeight}</span>
                     </div>
                     <div class="meta-item">
@@ -333,23 +353,40 @@ function openModal(compound) {
                         <span class="meta-value">${compound.cLogP}</span>
                     </div>
                     <div class="meta-item">
-                        <span class="meta-label">H-Acceptors</span>
+                        <span class="meta-label">Relative PSA</span>
+                        <span class="meta-value">${compound.relativePsa}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">H-Bond Acceptors</span>
                         <span class="meta-value">${compound.hAcceptors}</span>
                     </div>
                     <div class="meta-item">
-                        <span class="meta-label">H-Donors</span>
+                        <span class="meta-label">H-Bond Donors</span>
                         <span class="meta-value">${compound.hDonors}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Rotatable Bonds</span>
+                        <span class="meta-value">${compound.rotatableBonds}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">sp³ Carbon Fraction</span>
+                        <span class="meta-value">${compound.sp3Carbon}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Mutagenic</span>
+                        <span class="meta-value">${compound.mutagenic}</span>
                     </div>
                 </div>
 
-                <div class="section-title">Metabolic Pathway</div>
-                <div class="desc-box">${compound.metabolicPathway}</div>
-
-                <div class="section-title">Bioactivity</div>
-                <div class="desc-box">${compound.bioactivity}</div>
+                <div class="section-title">Biological Information</div>
+                <div class="desc-box">
+                    <p style="margin-bottom: 0.5rem;"><strong>Species / Source:</strong> ${compound.species}</p>
+                    <p style="margin-bottom: 0.5rem;"><strong>Metabolic Pathway:</strong> ${compound.metabolicPathway}</p>
+                    <p><strong>Bioactivity:</strong> ${compound.bioactivity}</p>
+                </div>
 
                 <div class="section-title">Reference</div>
-                <div class="reference">${compound.reference}</div>
+                <div class="reference">${doiFormatted}</div>
 
                 <code class="smiles-code">${compound.smiles}</code>
             </div>
