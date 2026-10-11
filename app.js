@@ -179,12 +179,16 @@ function getFilteredCompounds() {
 
 function populatePathways() {
     const pathways = new Set(state.compounds.map(c => c.metabolicPathway).filter(p => p && p !== 'Unknown'));
-    const sorted = Array.from(pathways).sort();
+    const sorted = Array.from(pathways).sort((a, b) => {
+        const labelA = a === '?' ? 'Not known' : a;
+        const labelB = b === '?' ? 'Not known' : b;
+        return labelA.localeCompare(labelB);
+    });
 
     sorted.forEach(p => {
         const option = document.createElement('option');
         option.value = p;
-        option.textContent = p;
+        option.textContent = p === '?' ? 'Not known' : p;
         elements.pathwayFilter.appendChild(option);
     });
 }
@@ -236,7 +240,7 @@ function renderGrid() {
                     </div>
                     <div class="meta-item">
                         <span class="meta-label">Pathway</span>
-                        <span class="meta-value">${compound.metabolicPathway}</span>
+                        <span class="meta-value">${compound.metabolicPathway === "?" ? "Not known" : compound.metabolicPathway}</span>
                     </div>
                 </div>
             </div>
@@ -435,7 +439,7 @@ function openModal(compound) {
                 <div class="section-title">Biological Information</div>
                 <div class="desc-box">
                     <p style="margin-bottom: 0.5rem;"><strong>Species and family:</strong> ${compound.species}</p>
-                    <p style="margin-bottom: 0.5rem;"><strong>Metabolic Pathway:</strong> ${compound.metabolicPathway}</p>
+                    <p style="margin-bottom: 0.5rem;"><strong>Metabolic Pathway:</strong> ${compound.metabolicPathway === "?" ? "Not known" : compound.metabolicPathway}</p>
                     <p><strong>Bioactivity:</strong> ${compound.bioactivity}</p>
                 </div>
 
