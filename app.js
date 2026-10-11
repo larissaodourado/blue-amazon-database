@@ -339,10 +339,9 @@ function openModal(compound) {
                 <h2 class="modal-title">${compound.name}</h2>
                 <div class="tags">
                     <span class="tag">ID: ${compound.id}</span>
-                    <span class="tag">${compound.species}</span>
                 </div>
 
-                <div class="section-title">Physicochemical Properties</div>
+                <div class="section-title">Physicochemical properties / Toxicology</div>
                 <div class="props-grid">
                     <div class="meta-item">
                         <span class="meta-label">Molecular Weight</span>
@@ -380,7 +379,7 @@ function openModal(compound) {
 
                 <div class="section-title">Biological Information</div>
                 <div class="desc-box">
-                    <p style="margin-bottom: 0.5rem;"><strong>Species / Source:</strong> ${compound.species}</p>
+                    <p style="margin-bottom: 0.5rem;"><strong>Species and family:</strong> ${compound.species}</p>
                     <p style="margin-bottom: 0.5rem;"><strong>Metabolic Pathway:</strong> ${compound.metabolicPathway}</p>
                     <p><strong>Bioactivity:</strong> ${compound.bioactivity}</p>
                 </div>
