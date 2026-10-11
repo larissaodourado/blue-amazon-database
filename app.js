@@ -396,7 +396,7 @@ function openModal(compound) {
                     <span class="tag">ID: ${compound.id}</span>
                 </div>
 
-                <div class="section-title">Physicochemical properties / Toxicology</div>
+                <div class="section-title">Physicochemical Properties / Toxicity</div>
                 <div class="props-grid">
                     <div class="meta-item">
                         <span class="meta-label">Molecular Weight</span>
