@@ -322,6 +322,48 @@ function formatDoiReference(refString) {
     return trimmed;
 }
 
+// Helper to copy SMILES to clipboard
+function copySmiles(button) {
+    const box = button.closest('.modal-smiles-box');
+    const codeEl = box ? box.querySelector('.smiles-code') : null;
+    const smiles = codeEl ? codeEl.textContent : '';
+    if (!smiles) return;
+
+    const setFeedback = () => {
+        const textSpan = button.querySelector('.copy-text');
+        if (textSpan) textSpan.textContent = 'Copied!';
+        button.classList.add('copied');
+        setTimeout(() => {
+            if (textSpan) textSpan.textContent = 'Copy SMILES';
+            button.classList.remove('copied');
+        }, 2000);
+    };
+
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(smiles).then(setFeedback).catch(() => fallbackCopyText(smiles, setFeedback));
+    } else {
+        fallbackCopyText(smiles, setFeedback);
+    }
+}
+
+function fallbackCopyText(text, cb) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    textarea.style.top = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    try {
+        document.execCommand('copy');
+        if (cb) cb();
+    } catch (e) {
+        console.warn('Fallback copy failed', e);
+    }
+    document.body.removeChild(textarea);
+}
+
 // Modal
 function openModal(compound) {
     const canvasId = `modal-mol-${compound.id}`;
@@ -332,6 +374,19 @@ function openModal(compound) {
             <div class="modal-left">
                 <div class="modal-structure-container">
                     <canvas id="${canvasId}" width="400" height="300"></canvas>
+                </div>
+                <div class="modal-smiles-box">
+                    <div class="smiles-header">
+                        <span class="smiles-label">SMILES</span>
+                        <button type="button" class="copy-smiles-btn" onclick="copySmiles(this)" title="Copy SMILES to clipboard">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+                                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+                            </svg>
+                            <span class="copy-text">Copy SMILES</span>
+                        </button>
+                    </div>
+                    <code class="smiles-code">${compound.smiles}</code>
                 </div>
             </div>
             
@@ -386,8 +441,6 @@ function openModal(compound) {
 
                 <div class="section-title">Reference</div>
                 <div class="reference">${doiFormatted}</div>
-
-                <code class="smiles-code">${compound.smiles}</code>
             </div>
         </div>
     `;
