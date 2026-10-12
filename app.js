@@ -151,7 +151,9 @@ function loadData() {
                     rotatableBonds: row['Rotatable Bonds'] || '-',
                     metabolicPathway: row['Metabolic pathway'] || 'Unknown',
                     bioactivity: row['Bioactivity'] || 'Not specified',
-                    species: row['Species'] || 'Unknown',
+                    species: row['Species and family'] || row['Species'] || 'Unknown',
+                    geographicOrigin: (row['Geographic origin'] || '').trim(),
+                    organism: (row['Organism'] || '').trim() || 'Not reported',
                     reference: row['Reference'] || ''
                 }));
                 resolve(data);
@@ -229,6 +231,7 @@ function renderGrid() {
             </div>
             <div class="card-body">
                 <div class="card-title" title="${compound.name}">${compound.name}</div>
+                ${compound.geographicOrigin ? `<div class="card-origin">${compound.geographicOrigin}</div>` : ""}
                 <div class="card-species">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-4.3-4.3"/><path d="M11 8a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V11a3 3 0 0 0-3-3z"/><path d="M11 3a3 3 0 0 0-3 3"/></svg>
                     <span>${compound.species}</span>
@@ -438,6 +441,8 @@ function openModal(compound) {
 
                 <div class="section-title">Biological Information</div>
                 <div class="desc-box">
+                    <p style="margin-bottom: 0.5rem;"><strong>Geographic origin:</strong> ${compound.geographicOrigin || "Not reported"}</p>
+                    <p style="margin-bottom: 0.5rem;"><strong>Organism:</strong> ${compound.organism}</p>
                     <p style="margin-bottom: 0.5rem;"><strong>Species and family:</strong> ${compound.species}</p>
                     <p style="margin-bottom: 0.5rem;"><strong>Metabolic Pathway:</strong> ${compound.metabolicPathway === "?" ? "Not known" : compound.metabolicPathway}</p>
                     <p><strong>Bioactivity:</strong> ${compound.bioactivity}</p>

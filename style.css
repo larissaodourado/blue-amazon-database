@@ -273,6 +273,13 @@ select option {
     color: var(--teal-400);
 }
 
+.card-origin {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
 .card-species {
     display: flex;
     align-items: center;
