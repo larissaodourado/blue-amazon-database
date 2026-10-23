@@ -130,7 +130,7 @@ function loadRDKit() {
 // Load CSV Data
 function loadData() {
     return new Promise((resolve, reject) => {
-        Papa.parse('amazul_db.csv', {
+        Papa.parse('iara_db.csv', {
             download: true,
             header: true,
             skipEmptyLines: true,
@@ -164,6 +164,13 @@ function loadData() {
 }
 
 // Filter Logic
+function normalizePathway(value) {
+    const pathway = (value || '').trim();
+    return pathway === '?' || pathway.toLowerCase() === 'not known'
+        ? 'Not known'
+        : pathway;
+}
+
 function getFilteredCompounds() {
     return state.compounds.filter(c => {
         const matchesSearch =
@@ -173,28 +180,28 @@ function getFilteredCompounds() {
 
         const matchesPathway =
             state.filters.pathway === 'All' ||
-            c.metabolicPathway === state.filters.pathway;
+            normalizePathway(c.metabolicPathway) === state.filters.pathway;
 
         return matchesSearch && matchesPathway;
     });
 }
 
 function populatePathways() {
-    const pathways = new Set(state.compounds.map(c => c.metabolicPathway).filter(p => p && p !== 'Unknown'));
-    const sorted = Array.from(pathways).sort((a, b) => {
-        const labelA = a === '?' ? 'Not known' : a;
-        const labelB = b === '?' ? 'Not known' : b;
-        return labelA.localeCompare(labelB);
-    });
+    const pathways = new Set(
+        state.compounds
+            .map(c => normalizePathway(c.metabolicPathway))
+            .filter(p => p && p !== 'Unknown')
+    );
 
-    sorted.forEach(p => {
+    const sorted = Array.from(pathways).sort((a, b) => a.localeCompare(b));
+
+    sorted.forEach(pathway => {
         const option = document.createElement('option');
-        option.value = p;
-        option.textContent = p === '?' ? 'Not known' : p;
+        option.value = pathway;
+        option.textContent = pathway;
         elements.pathwayFilter.appendChild(option);
     });
 }
-
 // Render Grid
 function renderGrid() {
     const filtered = getFilteredCompounds();
