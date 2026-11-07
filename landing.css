@@ -1,0 +1,889 @@
+
+/* =========================================================
+   IARA DATABASE — LANDING PAGE
+   Visual identity: Deep Ocean / Marine Science
+   ========================================================= */
+
+/* 01. GLOBAL SETTINGS
+   --------------------------------------------------------- */
+
+:root {
+    --ocean-deep: #031323;
+    --ocean-dark: #061b30;
+    --ocean-mid: #082d49;
+    --ocean-blue: #075078;
+    --cyan: #00d9f5;
+    --cyan-soft: #55dff2;
+    --white: #f4f9ff;
+    --muted: #a8bfd2;
+    --line: rgba(64, 203, 238, 0.20);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    background: var(--ocean-deep);
+    color: var(--white);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+::selection {
+    background: var(--cyan);
+    color: var(--ocean-deep);
+}
+
+
+/* 02. HEADER
+   --------------------------------------------------------- */
+
+.site-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 7%;
+    background: linear-gradient(
+        to bottom,
+        rgba(2, 14, 29, 0.55),
+        transparent
+    );
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.brand-mark {
+    color: var(--cyan);
+    font-size: 39px;
+    font-weight: 300;
+    line-height: 1;
+}
+
+.brand-name {
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: -0.8px;
+}
+
+.brand-name span {
+    font-weight: 400;
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.main-nav a {
+    font-size: 14px;
+    color: rgba(245, 250, 255, 0.90);
+    transition: color 0.3s ease;
+}
+
+.main-nav a:hover {
+    color: var(--cyan);
+}
+
+.main-nav .nav-cta {
+    border: 1px solid rgba(0, 217, 245, 0.65);
+    padding: 12px 21px;
+    border-radius: 30px;
+    color: var(--cyan-soft);
+}
+
+.main-nav .nav-cta:hover {
+    background: var(--cyan);
+    color: var(--ocean-deep);
+}
+
+
+/* 03. HERO — UNDERWATER ATMOSPHERE
+   --------------------------------------------------------- */
+
+.hero {
+    min-height: 850px;
+    min-height: 100svh;
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 150px 7% 120px;
+    background:
+        radial-gradient(
+            ellipse at 64% 5%,
+            rgba(0, 164, 211, 0.45),
+            transparent 35%
+        ),
+        radial-gradient(
+            ellipse at 85% 45%,
+            rgba(0, 91, 142, 0.35),
+            transparent 42%
+        ),
+        linear-gradient(
+            115deg,
+            #020d1d 0%,
+            #06223b 48%,
+            #031528 100%
+        );
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+        radial-gradient(
+            ellipse at 50% 100%,
+            rgba(0, 118, 159, 0.24),
+            transparent 52%
+        ),
+        radial-gradient(
+            circle at 30% 65%,
+            rgba(0, 177, 216, 0.10),
+            transparent 35%
+        );
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.28;
+    background-image:
+        radial-gradient(circle, #8befff 1px, transparent 1.5px);
+    background-size: 83px 79px;
+    mask-image: linear-gradient(
+        to bottom,
+        transparent,
+        black 35%,
+        transparent
+    );
+}
+
+.hero-background {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* Underwater light beams */
+
+.light-beam {
+    position: absolute;
+    top: -20%;
+    width: 180px;
+    height: 85%;
+    transform-origin: top center;
+    filter: blur(25px);
+    background: linear-gradient(
+        to bottom,
+        rgba(97, 229, 255, 0.34),
+        rgba(0, 183, 226, 0.08) 55%,
+        transparent
+    );
+    animation: lightPulse 8s ease-in-out infinite alternate;
+}
+
+.beam-one {
+    left: 46%;
+    transform: rotate(-13deg);
+}
+
+.beam-two {
+    left: 65%;
+    width: 120px;
+    transform: rotate(12deg);
+    animation-delay: 2s;
+}
+
+@keyframes lightPulse {
+    from {
+        opacity: 0.35;
+    }
+    to {
+        opacity: 0.85;
+    }
+}
+
+
+/* 04. MOLECULAR DECORATIONS
+   --------------------------------------------------------- */
+
+.molecule {
+    position: absolute;
+    width: 210px;
+    height: 170px;
+    opacity: 0.58;
+    animation: moleculeFloat 9s ease-in-out infinite;
+}
+
+.molecule span {
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 12px rgba(0, 217, 245, 0.7);
+}
+
+.molecule span:nth-child(1) {
+    top: 10%;
+    left: 48%;
+}
+
+.molecule span:nth-child(2) {
+    top: 35%;
+    left: 12%;
+}
+
+.molecule span:nth-child(3) {
+    top: 65%;
+    left: 55%;
+}
+
+.molecule span:nth-child(4) {
+    top: 88%;
+    left: 90%;
+}
+
+.molecule span:nth-child(5) {
+    top: 8%;
+    left: 92%;
+}
+
+.molecule::before,
+.molecule::after {
+    content: "";
+    position: absolute;
+    height: 1px;
+    background: rgba(0, 217, 245, 0.6);
+    transform-origin: left center;
+}
+
+.molecule::before {
+    width: 155px;
+    top: 18%;
+    left: 17%;
+    transform: rotate(22deg);
+}
+
+.molecule::after {
+    width: 150px;
+    top: 38%;
+    left: 15%;
+    transform: rotate(55deg);
+}
+
+.molecule-one {
+    top: 23%;
+    right: 8%;
+}
+
+.molecule-two {
+    bottom: 14%;
+    right: 34%;
+    transform: scale(0.75);
+    animation-delay: 3s;
+}
+
+@keyframes moleculeFloat {
+    0%, 100% {
+        translate: 0 0;
+    }
+    50% {
+        translate: 0 -15px;
+    }
+}
+
+
+/* 05. HERO CONTENT
+   --------------------------------------------------------- */
+
+.hero-content {
+    width: 100%;
+    max-width: 700px;
+    position: relative;
+    z-index: 2;
+}
+
+.eyebrow {
+    font-size: 12px;
+    letter-spacing: 5px;
+    font-weight: 600;
+    color: var(--cyan);
+    margin-bottom: 28px;
+}
+
+.hero h1 {
+    font-size: clamp(48px, 6.5vw, 88px);
+    line-height: 1.06;
+    font-weight: 600;
+    letter-spacing: -4px;
+    margin-bottom: 28px;
+}
+
+.hero h1 em,
+.intro-content h2 em,
+.scope-heading h2 em,
+.closing-section h2 em {
+    color: var(--cyan-soft);
+    font-weight: 400;
+    font-style: normal;
+}
+
+.hero-description {
+    max-width: 570px;
+    font-size: 17px;
+    line-height: 1.85;
+    color: #c0d3e4;
+    margin-bottom: 34px;
+}
+
+.hero-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 35px;
+}
+
+.primary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 17px 29px;
+    border: 1px solid var(--cyan);
+    border-radius: 35px;
+    background: rgba(0, 190, 220, 0.14);
+    color: #a9f5ff;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.35s ease;
+}
+
+.primary-button:hover {
+    background: var(--cyan);
+    color: var(--ocean-deep);
+    box-shadow: 0 0 30px rgba(0, 217, 245, 0.3);
+    transform: translateY(-3px);
+}
+
+.text-link {
+    font-size: 14px;
+    color: #c3d9ed;
+    transition: color 0.3s ease;
+}
+
+.text-link:hover {
+    color: var(--cyan);
+}
+
+
+/* 06. HERO DETAILS
+   --------------------------------------------------------- */
+
+.hero-caption {
+    position: absolute;
+    bottom: 45px;
+    left: 7%;
+    right: 7%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: rgba(147, 207, 230, 0.75);
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 38px;
+    left: 50%;
+    width: 24px;
+    height: 38px;
+    border: 1px solid rgba(0, 217, 245, 0.5);
+    border-radius: 20px;
+}
+
+.scroll-indicator span {
+    display: block;
+    width: 3px;
+    height: 8px;
+    border-radius: 5px;
+    background: var(--cyan);
+    margin: 7px auto;
+    animation: scrollMove 1.7s infinite;
+}
+
+@keyframes scrollMove {
+    0% {
+        opacity: 0;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+}
+
+
+/* 07. WAVES
+   --------------------------------------------------------- */
+
+.wave {
+    position: absolute;
+    bottom: 5%;
+    left: -10%;
+    width: 120%;
+    height: 100px;
+    border-top: 1px solid rgba(0, 198, 238, 0.35);
+    border-radius: 50%;
+    transform: rotate(-4deg);
+}
+
+.wave-one {
+    box-shadow:
+        0 -10px 0 -9px rgba(0, 198, 238, 0.35),
+        0 -20px 0 -19px rgba(0, 198, 238, 0.25),
+        0 -30px 0 -29px rgba(0, 198, 238, 0.20);
+}
+
+.wave-two {
+    bottom: 2%;
+    transform: rotate(3deg);
+    opacity: 0.55;
+}
+
+
+/* 08. ABOUT SECTION
+   --------------------------------------------------------- */
+
+.intro-section {
+    padding: 130px 10%;
+    background:
+        radial-gradient(
+            ellipse at 90% 30%,
+            rgba(0, 113, 156, 0.13),
+            transparent 45%
+        ),
+        #061a2c;
+}
+
+.section-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--cyan);
+    margin-bottom: 65px;
+}
+
+.intro-content {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 90px;
+    align-items: start;
+}
+
+.intro-content h2,
+.scope-heading h2 {
+    font-size: clamp(34px, 4vw, 53px);
+    line-height: 1.25;
+    letter-spacing: -1.8px;
+    font-weight: 500;
+}
+
+.intro-text {
+    color: var(--muted);
+    font-size: 17px;
+    line-height: 1.9;
+}
+
+.intro-text p + p {
+    margin-top: 22px;
+}
+
+
+/* 09. DATABASE SCOPE
+   --------------------------------------------------------- */
+
+.scope-section {
+    padding: 125px 10%;
+    background: linear-gradient(
+        180deg,
+        #071d31,
+        #041426
+    );
+}
+
+.scope-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 50px;
+    margin-bottom: 65px;
+}
+
+.scope-heading > p {
+    max-width: 370px;
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.9;
+    padding-bottom: 7px;
+}
+
+.scope-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.scope-card {
+    position: relative;
+    min-height: 300px;
+    padding: 36px 30px;
+    border: 1px solid rgba(75, 192, 220, 0.19);
+    border-radius: 5px;
+    background: linear-gradient(
+        145deg,
+        rgba(13, 66, 91, 0.45),
+        rgba(5, 29, 48, 0.65)
+    );
+    transition: all 0.4s ease;
+}
+
+.scope-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(0, 217, 245, 0.65);
+    background: rgba(11, 63, 87, 0.55);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+}
+
+.card-number {
+    position: absolute;
+    top: 28px;
+    right: 28px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: rgba(105, 214, 238, 0.65);
+}
+
+.card-symbol {
+    color: var(--cyan);
+    font-size: 35px;
+    margin-bottom: 30px;
+}
+
+.scope-card h3 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 17px;
+}
+
+.scope-card p {
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--muted);
+}
+
+
+/* 10. CLOSING SECTION
+   --------------------------------------------------------- */
+
+.closing-section {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: 120px 7%;
+    background:
+        radial-gradient(
+            ellipse at 50% 100%,
+            rgba(0, 166, 208, 0.20),
+            transparent 60%
+        ),
+        #031323;
+}
+
+.closing-decoration {
+    position: absolute;
+    right: 9%;
+    top: 0;
+    font-size: 230px;
+    line-height: 1;
+    color: rgba(0, 217, 245, 0.045);
+}
+
+.closing-section .eyebrow {
+    margin-bottom: 25px;
+}
+
+.closing-section h2 {
+    position: relative;
+    font-size: clamp(35px, 4.5vw, 56px);
+    line-height: 1.3;
+    font-weight: 500;
+    letter-spacing: -1.8px;
+    margin-bottom: 38px;
+}
+
+
+/* 11. FOOTER
+   --------------------------------------------------------- */
+
+.site-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    padding: 35px 7%;
+    border-top: 1px solid var(--line);
+    background: #020f1e;
+}
+
+.footer-brand {
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.site-footer p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.site-footer > span {
+    font-size: 11px;
+    color: #7894a9;
+}
+
+
+/* 12. RESPONSIVE DESIGN — TABLETS
+   --------------------------------------------------------- */
+
+@media (max-width: 900px) {
+
+    .site-header {
+        padding: 25px 5%;
+    }
+
+    .main-nav {
+        gap: 20px;
+    }
+
+    .hero {
+        padding-left: 6%;
+        padding-right: 6%;
+    }
+
+    .intro-section,
+    .scope-section {
+        padding: 95px 7%;
+    }
+
+    .intro-content {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .scope-heading {
+        flex-direction: column;
+        align-items: start;
+        gap: 20px;
+    }
+
+    .scope-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+/* 13. RESPONSIVE DESIGN — MOBILE
+   --------------------------------------------------------- */
+
+@media (max-width: 600px) {
+
+    .site-header {
+        padding: 22px 6%;
+        align-items: flex-start;
+    }
+
+    .brand {
+        gap: 8px;
+    }
+
+    .brand-mark {
+        font-size: 30px;
+    }
+
+    .brand-name {
+        font-size: 19px;
+    }
+
+    .main-nav {
+        gap: 13px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .main-nav a {
+        font-size: 11px;
+    }
+
+    .main-nav .nav-cta {
+        padding: 8px 11px;
+    }
+
+    .hero {
+        min-height: 760px;
+        padding: 145px 7% 125px;
+    }
+
+    .hero h1 {
+        font-size: clamp(43px, 12vw, 62px);
+        letter-spacing: -2.5px;
+    }
+
+    .hero-description {
+        font-size: 14px;
+        line-height: 1.8;
+    }
+
+    .hero-actions {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 22px;
+    }
+
+    .primary-button {
+        padding: 15px 22px;
+        font-size: 13px;
+    }
+
+    .hero-caption {
+        left: 7%;
+        right: 7%;
+        bottom: 28px;
+        font-size: 8px;
+        letter-spacing: 1.5px;
+    }
+
+    .scroll-indicator {
+        display: none;
+    }
+
+    .molecule-one {
+        right: -100px;
+        top: 20%;
+        opacity: 0.3;
+    }
+
+    .molecule-two {
+        right: -70px;
+        bottom: 10%;
+        opacity: 0.25;
+    }
+
+    .intro-section,
+    .scope-section {
+        padding: 80px 7%;
+    }
+
+    .section-label {
+        margin-bottom: 38px;
+        font-size: 9px;
+    }
+
+    .intro-content h2,
+    .scope-heading h2 {
+        font-size: 34px;
+        letter-spacing: -1px;
+    }
+
+.intro-text {
+    font-size: 15px;
+    line-height: 1.85;
+}
+
+.scope-heading > p {
+    font-size: 15px;
+}
+
+.scope-card h3 {
+    font-size: 19px;
+}
+
+.scope-card p {
+    font-size: 14px;
+}
+
+    .scope-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .scope-card {
+        min-height: 250px;
+    }
+
+    .closing-section {
+        padding: 90px 7%;
+    }
+
+    .closing-section h2 {
+        font-size: 35px;
+    }
+
+    .closing-decoration {
+        font-size: 150px;
+    }
+
+    .site-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 32px 7%;
+        gap: 14px;
+    }
+}
+
+
+/* 14. ACCESSIBILITY
+   --------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
