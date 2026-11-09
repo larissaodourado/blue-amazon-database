@@ -21,13 +21,26 @@
 
 body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: var(--bg-color);
-    background-image: linear-gradient(to bottom right, var(--bg-gradient-start), var(--bg-gradient-end));
+    background-color: #031323;
+    background-image:
+        radial-gradient(
+            ellipse at 64% 5%,
+            rgba(0, 164, 211, 0.25),
+            transparent 45%
+        ),
+        linear-gradient(
+            115deg,
+            #020d1d 0%,
+            #06223b 48%,
+            #031528 100%
+        );
+    background-attachment: fixed;
     color: var(--text-primary);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
+
 
 /* Utilities */
 .container {
@@ -63,40 +76,27 @@ body {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    text-decoration: none;
+    color: inherit;
 }
 
-.logo-icon {
-    padding: 0.5rem;
-    background: linear-gradient(135deg, var(--teal-400), var(--teal-600));
-    border-radius: 0.5rem;
-    color: white;
-    display: flex;
-}
-
-.brand-text h1 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    line-height: 1.2;
-    background: linear-gradient(to right, #fff, rgba(255, 255, 255, 0.7));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-@media (min-width: 640px) {
-    .brand-text h1 {
-        font-size: 1.25rem;
-    }
-}
-
-.brand-text p {
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+.brand-mark {
     color: var(--teal-400);
-    opacity: 0.8;
+    font-size: 39px;
+    font-weight: 300;
+    line-height: 1;
 }
 
+.brand-name {
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: -0.8px;
+    color: #fff;
+}
+
+.brand-name span {
+    font-weight: 400;
+}
 .nav-link {
     color: var(--text-secondary);
     text-decoration: none;
