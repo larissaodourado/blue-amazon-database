@@ -241,7 +241,7 @@ function renderGrid() {
                 ${compound.geographicOrigin ? `<div class="card-origin">${compound.geographicOrigin}</div>` : ""}
                 <div class="card-species">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-4.3-4.3"/><path d="M11 8a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V11a3 3 0 0 0-3-3z"/><path d="M11 3a3 3 0 0 0-3 3"/></svg>
-                    <span>${compound.species}</span>
+                    <span>${formatSpeciesName(compound.species)}</span>
                 </div>
                 <div class="card-meta">
                     <div class="meta-item">
@@ -379,6 +379,35 @@ function fallbackCopyText(text, cb) {
 }
 
 // Modal
+function formatSpeciesName(value) {
+    const escapeHtml = (text) => String(text || '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    })[char]);
+
+    let formatted = escapeHtml(value);
+
+    formatted = formatted.replace(
+        /\b(?!(?:Species|Bacterium|Fungus)\b)([A-Z][a-z]+)\s+([a-z][a-z-]+)\b/g,
+        '<em>$1 $2</em>'
+    );
+
+    formatted = formatted.replace(
+        /\b([A-Z][a-z]+)(?=\s+sp\.|\s*\()/g,
+        '<em>$1</em>'
+    );
+
+    formatted = formatted.replace(
+        /\b([A-Z])\.\s+([a-z][a-z-]+)\b/g,
+        '<em>$1. $2</em>'
+    );
+
+    return formatted;
+}
+
 function openModal(compound) {
     const canvasId = `modal-mol-${compound.id}`;
     const doiFormatted = formatDoiReference(compound.reference);
@@ -450,7 +479,7 @@ function openModal(compound) {
                 <div class="desc-box">
                     <p style="margin-bottom: 0.5rem;"><strong>Geographic origin:</strong> ${compound.geographicOrigin || "Not reported"}</p>
                     <p style="margin-bottom: 0.5rem;"><strong>Organism:</strong> ${compound.organism}</p>
-                    <p style="margin-bottom: 0.5rem;"><strong>Species and family:</strong> ${compound.species}</p>
+                    <p style="margin-bottom: 0.5rem;"><strong>Species and family:</strong> ${formatSpeciesName(compound.species)}</p>
                     <p style="margin-bottom: 0.5rem;"><strong>Metabolic Pathway:</strong> ${compound.metabolicPathway === "?" ? "Not known" : compound.metabolicPathway}</p>
                     <p><strong>Bioactivity:</strong> ${compound.bioactivity}</p>
                 </div>
