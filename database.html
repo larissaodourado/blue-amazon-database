@@ -52,11 +52,38 @@
                     </svg>
                     <span>Download CSV</span>
                 </a>
-                <div class="select-wrapper">
-                    <select id="pathwayFilter">
-                        <option value="All">All metabolic pathways</option>
-                        <!-- Options populated via JS -->
-                    </select>
+                <div class="organism-filter" id="organismFilter">
+                    <button
+                        type="button"
+                        class="organism-filter-toggle"
+                        id="organismFilterToggle"
+                        aria-expanded="false"
+                        aria-controls="organismFilterPanel">
+                        <span>Organism groups</span>
+                        <span class="organism-filter-count" id="organismFilterCount">All groups</span>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             width="16" height="16" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round"
+                             stroke-linejoin="round" aria-hidden="true">
+                            <polyline points="6 9 12 15 18 9"/>
+                        </svg>
+                    </button>
+
+                    <div class="organism-filter-panel"
+                         id="organismFilterPanel" hidden>
+                        <div class="organism-filter-panel-header">
+                            <span>Select organism groups</span>
+                            <button type="button"
+                                    id="clearOrganismFilter"
+                                    class="organism-filter-clear"
+                                    disabled>
+                                Clear selection
+                            </button>
+                        </div>
+                        <div id="organismFilterOptions"
+                             class="organism-filter-options"></div>
+                    </div>
                 </div>
                 <span id="resultCount" class="result-count">Loading...</span>
             </div>

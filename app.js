@@ -5,7 +5,7 @@ const state = {
     wasmLoaded: false,
     filters: {
         search: '',
-        pathway: 'All'
+        organisms: []
     },
     pagination: {
         currentPage: 1,
@@ -17,7 +17,12 @@ const state = {
 const elements = {
     grid: document.getElementById('compoundGrid'),
     searchInput: document.getElementById('searchInput'),
-    pathwayFilter: document.getElementById('pathwayFilter'),
+    organismFilterContainer: document.getElementById('organismFilter'),
+    organismFilterToggle: document.getElementById('organismFilterToggle'),
+    organismFilterPanel: document.getElementById('organismFilterPanel'),
+    organismFilterOptions: document.getElementById('organismFilterOptions'),
+    organismFilterCount: document.getElementById('organismFilterCount'),
+    clearOrganismFilter: document.getElementById('clearOrganismFilter'),
     resultCount: document.getElementById('resultCount'),
     modal: document.getElementById('detailModal'),
     modalBody: document.getElementById('modalBody'),
@@ -45,7 +50,7 @@ async function init() {
         state.wasmLoaded = true;
         state.compounds = data;
 
-        populatePathways();
+        populateOrganisms();
         renderGrid();
 
         // Listeners
@@ -55,10 +60,37 @@ async function init() {
             renderGrid();
         });
 
-        elements.pathwayFilter.addEventListener('change', (e) => {
-            state.filters.pathway = e.target.value;
-            state.pagination.currentPage = 1; // Reset to page 1
+        elements.organismFilterToggle.addEventListener('click', () => {
+            const isOpen = !elements.organismFilterPanel.hidden;
+            elements.organismFilterPanel.hidden = isOpen;
+            elements.organismFilterToggle.setAttribute('aria-expanded', String(!isOpen));
+        });
+
+        elements.clearOrganismFilter.addEventListener('click', () => {
+            state.filters.organisms = [];
+            elements.organismFilterOptions
+                .querySelectorAll('input[type="checkbox"]')
+                .forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+
+            state.pagination.currentPage = 1;
+            updateOrganismFilterLabel();
             renderGrid();
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!elements.organismFilterContainer.contains(e.target)) {
+                elements.organismFilterPanel.hidden = true;
+                elements.organismFilterToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                elements.organismFilterPanel.hidden = true;
+                elements.organismFilterToggle.setAttribute('aria-expanded', 'false');
+            }
         });
 
         // Pagination Listeners
@@ -164,13 +196,6 @@ function loadData() {
 }
 
 // Filter Logic
-function normalizePathway(value) {
-    const pathway = (value || '').trim();
-    return pathway === '?' || pathway.toLowerCase() === 'not known'
-        ? 'Not known'
-        : pathway;
-}
-
 function getFilteredCompounds() {
     return state.compounds.filter(c => {
         const matchesSearch =
@@ -178,30 +203,65 @@ function getFilteredCompounds() {
             c.species.toLowerCase().includes(state.filters.search) ||
             c.smiles.toLowerCase().includes(state.filters.search);
 
-        const matchesPathway =
-            state.filters.pathway === 'All' ||
-            normalizePathway(c.metabolicPathway) === state.filters.pathway;
-
-        return matchesSearch && matchesPathway;
+        const matchesOrganism =
+            state.filters.organisms.length === 0 ||
+            state.filters.organisms.includes(c.organism);
+        return matchesSearch && matchesOrganism;
     });
 }
 
-function populatePathways() {
-    const pathways = new Set(
+function populateOrganisms() {
+    const organisms = new Set(
         state.compounds
-            .map(c => normalizePathway(c.metabolicPathway))
-            .filter(p => p && p !== 'Unknown')
+            .map(c => c.organism)
+            .filter(organism => organism && organism !== 'Not reported')
     );
 
-    const sorted = Array.from(pathways).sort((a, b) => a.localeCompare(b));
+    const sorted = Array.from(organisms).sort((a, b) => a.localeCompare(b));
 
-    sorted.forEach(pathway => {
-        const option = document.createElement('option');
-        option.value = pathway;
-        option.textContent = pathway;
-        elements.pathwayFilter.appendChild(option);
+    elements.organismFilterOptions.innerHTML = '';
+
+    sorted.forEach(organism => {
+        const label = document.createElement('label');
+        label.className = 'organism-option';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = organism;
+
+        const text = document.createElement('span');
+        text.textContent = organism;
+
+        checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+                state.filters.organisms.push(organism);
+            } else {
+                state.filters.organisms =
+                    state.filters.organisms.filter(item => item !== organism);
+            }
+
+            state.pagination.currentPage = 1;
+            updateOrganismFilterLabel();
+            renderGrid();
+        });
+
+        label.appendChild(checkbox);
+        label.appendChild(text);
+        elements.organismFilterOptions.appendChild(label);
     });
+
+    updateOrganismFilterLabel();
 }
+
+function updateOrganismFilterLabel() {
+    const selectedCount = state.filters.organisms.length;
+
+    elements.organismFilterCount.textContent =
+        selectedCount === 0 ? 'All groups' : `${selectedCount} selected`;
+
+    elements.clearOrganismFilter.disabled = selectedCount === 0;
+}
+
 // Render Grid
 function renderGrid() {
     const filtered = getFilteredCompounds();
