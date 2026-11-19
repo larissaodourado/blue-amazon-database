@@ -164,6 +164,7 @@ function loadData() {
     return new Promise((resolve, reject) => {
         Papa.parse('iara_db.csv', {
             download: true,
+            delimiter: ';',
             header: true,
             skipEmptyLines: true,
             complete: (results) => {
@@ -177,8 +178,8 @@ function loadData() {
                     cLogP: row['cLogP'] || '-',
                     hAcceptors: row['H-Acceptors'] || '-',
                     hDonors: row['H-Donors'] || '-',
-                    sp3Carbon: row['sp3-Carbon Fraction'] || '-',
-                    relativePsa: row['Relative PSA'] || '-',
+                    heavyAtoms: row['Heavy Atoms'] || '-',
+                    relativePsa: row['Topological Polar Surface Area (TPSA)'] || '-',
                     mutagenic: row['Mutagenic'] || '-',
                     rotatableBonds: row['Rotatable Bonds'] || '-',
                     metabolicPathway: row['Metabolic pathway'] || 'Unknown',
@@ -510,7 +511,7 @@ function openModal(compound) {
                         <span class="meta-value">${compound.cLogP}</span>
                     </div>
                     <div class="meta-item">
-                        <span class="meta-label">Relative PSA</span>
+                        <span class="meta-label">Topological Polar Surface Area (TPSA)</span>
                         <span class="meta-value">${compound.relativePsa}</span>
                     </div>
                     <div class="meta-item">
@@ -526,8 +527,8 @@ function openModal(compound) {
                         <span class="meta-value">${compound.rotatableBonds}</span>
                     </div>
                     <div class="meta-item">
-                        <span class="meta-label">sp³ Carbon Fraction</span>
-                        <span class="meta-value">${compound.sp3Carbon}</span>
+                        <span class="meta-label">Heavy Atoms</span>
+                        <span class="meta-value">${compound.heavyAtoms}</span>
                     </div>
                     <div class="meta-item">
                         <span class="meta-label">Mutagenic</span>
