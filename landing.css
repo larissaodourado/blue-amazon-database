@@ -887,3 +887,47 @@ a {
         transition-duration: 0.01ms !important;
     }
 }
+
+
+/* IARA meaning section */
+.iara-meaning {
+    width: 100%;
+    padding: 64px 24px 72px;
+    text-align: center;
+    position: relative;
+}
+
+.iara-meaning-content {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.iara-meaning-eyebrow {
+    display: block;
+    margin-bottom: 14px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: #79b9c5;
+}
+
+.iara-meaning h2 {
+    margin: 0 0 18px;
+    font-size: clamp(1.35rem, 2.5vw, 1.8rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+}
+
+.iara-meaning p {
+    margin: 0 auto;
+    max-width: 650px;
+    font-size: 0.92rem;
+    line-height: 1.85;
+    color: rgba(255, 255, 255, 0.68);
+}
+
+@media (max-width: 600px) {
+    .iara-meaning {
+        padding: 48px 22px 56px;
+    }
+}
