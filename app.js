@@ -179,7 +179,7 @@ function loadData() {
                     hAcceptors: row['H-Acceptors'] || '-',
                     hDonors: row['H-Donors'] || '-',
                     heavyAtoms: row['Heavy Atoms'] || '-',
-                    relativePsa: row['Topological Polar Surface Area (TPSA)'] || '-',
+                    relativePsa: row['Topological Polar Surface Area'] || '-',
                     mutagenic: row['Mutagenic'] || '-',
                     rotatableBonds: row['Rotatable Bonds'] || '-',
                     pathway: row['Pathway'] || '?',
