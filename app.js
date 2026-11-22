@@ -182,7 +182,9 @@ function loadData() {
                     relativePsa: row['Topological Polar Surface Area (TPSA)'] || '-',
                     mutagenic: row['Mutagenic'] || '-',
                     rotatableBonds: row['Rotatable Bonds'] || '-',
-                    metabolicPathway: row['Metabolic pathway'] || 'Unknown',
+                    pathway: row['Pathway'] || '?',
+                    superclass: row['Superclass'] || '?',
+                    chemicalClass: row['Class'] || '?',
                     bioactivity: row['Bioactivity'] || 'Not specified',
                     species: row['Species and family'] || row['Species'] || 'Unknown',
                     geographicOrigin: (row['Geographic origin'] || '').trim(),
@@ -309,9 +311,20 @@ function renderGrid() {
                         <span class="meta-label">Mol. Weight</span>
                         <span class="meta-value">${compound.molWeight}</span>
                     </div>
-                    <div class="meta-item">
-                        <span class="meta-label">Pathway</span>
-                        <span class="meta-value">${compound.metabolicPathway === "?" ? "Not known" : compound.metabolicPathway}</span>
+                </div>
+                <div class="card-classification">
+                    <div class="classification-heading">Biosynthetic Classification</div>
+                    <div class="classification-row">
+                        <span class="classification-label">Pathway</span>
+                        <span class="classification-value">${compound.pathway && compound.pathway !== "?" ? compound.pathway : "Not known"}</span>
+                    </div>
+                    <div class="classification-row">
+                        <span class="classification-label">Superclass</span>
+                        <span class="classification-value">${compound.superclass && compound.superclass !== "?" ? compound.superclass : "Not known"}</span>
+                    </div>
+                    <div class="classification-row">
+                        <span class="classification-label">Class</span>
+                        <span class="classification-value">${compound.chemicalClass && compound.chemicalClass !== "?" ? compound.chemicalClass : "Not known"}</span>
                     </div>
                 </div>
             </div>
@@ -500,6 +513,21 @@ function openModal(compound) {
                     <span class="tag">ID: ${compound.id}</span>
                 </div>
 
+                <div class="section-title">Biosynthetic Classification</div>
+                <div class="classification-box">
+                    <div class="classification-row">
+                        <span class="classification-label">Pathway</span>
+                        <span class="classification-value">${compound.pathway && compound.pathway !== "?" ? compound.pathway : "Not known"}</span>
+                    </div>
+                    <div class="classification-row">
+                        <span class="classification-label">Superclass</span>
+                        <span class="classification-value">${compound.superclass && compound.superclass !== "?" ? compound.superclass : "Not known"}</span>
+                    </div>
+                    <div class="classification-row">
+                        <span class="classification-label">Class</span>
+                        <span class="classification-value">${compound.chemicalClass && compound.chemicalClass !== "?" ? compound.chemicalClass : "Not known"}</span>
+                    </div>
+                </div>
                 <div class="section-title">Physicochemical Properties / Toxicity</div>
                 <div class="props-grid">
                     <div class="meta-item">
@@ -541,7 +569,7 @@ function openModal(compound) {
                     <p style="margin-bottom: 0.5rem;"><strong>Geographic origin:</strong> ${compound.geographicOrigin || "Not reported"}</p>
                     <p style="margin-bottom: 0.5rem;"><strong>Organism:</strong> ${compound.organism}</p>
                     <p style="margin-bottom: 0.5rem;"><strong>Species and family:</strong> ${formatSpeciesName(compound.species)}</p>
-                    <p style="margin-bottom: 0.5rem;"><strong>Metabolic Pathway:</strong> ${compound.metabolicPathway === "?" ? "Not known" : compound.metabolicPathway}</p>
+
                     <p><strong>Bioactivity:</strong> ${compound.bioactivity}</p>
                 </div>
 

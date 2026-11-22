@@ -376,9 +376,9 @@ input[type="text"]:focus {
 }
 
 .card-meta {
-    margin-top: auto;
+    margin-top: 0;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 0.5rem;
     padding-top: 0.75rem;
     border-top: 1px solid var(--glass-border);
@@ -794,4 +794,55 @@ footer {
     .download-btn {
         width: 100%;
     }
+}
+
+
+/* NPClassifier - Biosynthetic Classification */
+.card-classification {
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--glass-border);
+}
+
+.classification-heading {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--teal-200);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.classification-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    margin-bottom: 0.45rem;
+    min-width: 0;
+}
+
+.classification-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+}
+
+.classification-value {
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--text-primary);
+    overflow-wrap: anywhere;
+}
+
+.classification-box {
+    background: var(--glass-bg);
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--glass-border);
+    margin-bottom: 1.5rem;
+}
+
+.classification-box .classification-row:last-child {
+    margin-bottom: 0;
 }
